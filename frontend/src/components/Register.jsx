@@ -4,43 +4,73 @@ import MyTextField from './forms/MyTextField'
 import MyPassField from './forms/MyPassField'
 import MyButton from './forms/MyButton'
 import {Link} from 'react-router-dom'
+import {useForm} from 'react-hook-form'
+import AxiosInstance from './AxiosInstance'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+    const navigate = useNavigate()
+    const {handleSubmit, control} = useForm()
+
+    const submission = (data) => {
+        AxiosInstance.post(`register/`, {
+            email: data.email,
+            password: data.password
+        })
+
+        .then(response => {
+            // console.log(response)
+            navigate(`/`)
+        })
+    }
+
     return(
         <div className={"myBackground"}>
-            <Box className={"whiteBox"}>
-                <Box className={"itemBox"}>
-                    <Box className={"title"}>Sign Up</Box>
+
+            <form onSubmit={handleSubmit(submission)}>
+
+                <Box className={"whiteBox"}>
+                    <Box className={"itemBox"}>
+                        <Box className={"title"}>Sign Up</Box>
+                    </Box>
+
+                    <Box className={"itemBox"}>
+                        <MyTextField
+                        label={"Email"}
+                        name = {"email"}
+                        control = {control}
+                        />
+                    </Box>
+
+                    <Box className={"itemBox"}>
+                        <MyPassField
+                        label={"Password"}
+                        name = {"password"}
+                        control = {control}
+                        />
+                    </Box>
+
+                    <Box className={"itemBox"}>
+                        <MyPassField
+                        label={"Confirm Password"}
+                        name = {"password2"}
+                        control = {control}
+                        />
+                    </Box>
+
+                    <Box className={"itemBox"}>
+                        <MyButton
+                        type={"submit"}
+                        label={"Create Account"}
+                        />
+                    </Box>
+
+                    <Box className={"itemBox"}>
+                        <Link to="/">Already have an account? Sign in here</Link>
+                    </Box>
                 </Box>
 
-                <Box className={"itemBox"}>
-                    <MyTextField
-                    label={"Email"}
-                    />
-                </Box>
-
-                <Box className={"itemBox"}>
-                    <MyPassField
-                    label={"Password"}
-                    />
-                </Box>
-
-                <Box className={"itemBox"}>
-                    <MyPassField
-                    label={"Confirm Password"}
-                    />
-                </Box>
-
-                <Box className={"itemBox"}>
-                    <MyButton
-                    label={"Create Account"}
-                    />
-                </Box>
-
-                <Box className={"itemBox"}>
-                    <Link to="/">Already have an account? Sign in here</Link>
-                </Box>
-            </Box>
+            </form>
             
         </div>
     )

@@ -3,12 +3,12 @@ from rest_framework import viewsets, permissions
 from .serializers import *
 from .models import *
 from rest_framework.response import Response
-from django.contrib.auth.models import get_user_model
+from django.contrib.auth import get_user_model
 User = get_user_model()
 
 # Create your views here.
 
-class RegisterViewste(viewsets.ViewSet):
+class RegisterViewset(viewsets.ViewSet):
     permission_classes = [permissions.AllowAny]
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
