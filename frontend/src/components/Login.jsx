@@ -6,8 +6,10 @@ import MyButton from './forms/MyButton'
 import {Link} from 'react-router-dom'
 import {useForm} from 'react-hook-form'
 import AxiosInstance from './AxiosInstance'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+    const navigate = useNavigate()
     const {handleSubmit, control} = useForm()
 
     const submission = (data) => {
@@ -18,7 +20,8 @@ const Login = () => {
 
         .then(response => {
             console.log(response)
-            // navigate(`/home`)
+            localStorage.setItem('Token', response.data.token)
+            navigate(`/home`)
         })
         .catch((error) => {
             console.error('Error during login', error)
