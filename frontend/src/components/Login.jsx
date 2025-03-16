@@ -4,38 +4,63 @@ import MyTextField from './forms/MyTextField'
 import MyPassField from './forms/MyPassField'
 import MyButton from './forms/MyButton'
 import {Link} from 'react-router-dom'
+import {useForm} from 'react-hook-form'
+import AxiosInstance from './AxiosInstance'
 
 const Login = () => {
+    const {handleSubmit, control} = useForm()
+
+    const submission = (data) => {
+        AxiosInstance.post(`login/`, {
+            email: data.email,
+            password: data.password
+        })
+
+        .then(response => {
+            console.log(response)
+            // navigate(`/home`)
+        })
+        .catch((error) => {
+            console.error('Error during login', error)
+        })
+    }
+
     return(
         <div className={"myBackground"}>
-            <Box className={"whiteBox"}>
-                <Box className={"itemBox"}>
-                    <Box className={"title"}>Login</Box>
-                </Box>
+            <form onSubmit={handleSubmit(submission)}>
+                <Box className={"whiteBox"}>
+                    <Box className={"itemBox"}>
+                        <Box className={"title"}>Login</Box>
+                    </Box>
 
-                <Box className={"itemBox"}>
-                    <MyTextField
-                    label={"Email"}
-                    />
-                </Box>
+                    <Box className={"itemBox"}>
+                        <MyTextField
+                        label={"Email"}
+                        name={"email"}
+                        control={control}
+                        />
+                    </Box>
 
-                <Box className={"itemBox"}>
-                    <MyPassField
-                    label={"Password"}
-                    />
-                </Box>
+                    <Box className={"itemBox"}>
+                        <MyPassField
+                        label={"Password"}
+                        name={"password"}
+                        control={control}
+                        />
+                    </Box>
 
-                <Box className={"itemBox"}>
-                    <MyButton
-                    label={"Login"}
-                    />
-                </Box>
+                    <Box className={"itemBox"}>
+                        <MyButton
+                        label={"Login"}
+                        type={"submit"}
+                        />
+                    </Box>
 
-                <Box className={"itemBox"}>
-                    <Link to="/register">Don't have an account? Sign up here</Link>
+                    <Box className={"itemBox"}>
+                        <Link to="/register">Don't have an account? Sign up here</Link>
+                    </Box>
                 </Box>
-            </Box>
-            
+            </form>
         </div>
     )
 //   const [email, setEmail] = useState("");
